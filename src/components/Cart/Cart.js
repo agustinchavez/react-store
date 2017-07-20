@@ -5,26 +5,23 @@ class Cart extends Component {
     
     constructor() {
         super();
+        this.price = 0;
+        this.shipping = 0;
         this.beforeTax = 0;
-        this.totalTax = 0;
-        this.finalTotal = 0;
+        this.tax = 0;
+        this.total = 0;
              
     }
 
     totalPrice(){
-         var itemPrice = this.props.cart.reduce((prev, item) => item.price * (item.quantity || 1) + prev, 0);
+         var itemPrice = this.props.cart.reduce((prev, item) => item.price * item.quantity, 0);
         
-        var shippingPrice = this.props.cart.reduce((prev, item) => item.shipping * (item.quantity || 1) + prev, 0);
 
-        this.price = this.roundTwoDecimal(itemPrice);
-        this.shipping = this.roundTwoDecimal(shippingPrice);
-        this.tax = this.roundTwoDecimal((this.price + this.shipping) * 0.1);
-        this.beforeTax = this.roundTwoDecimal(this.price + this.shipping);
-        this.total = this.roundTwoDecimal(this.price + this.shipping + this.tax);
+        this.price = this.getItemCount(itemPrice);
     }
     
     getItemCount(number){
-        return (Math.round(number * 100) / 100);
+        return number;
     }
 
     // getItemCount() {
@@ -51,7 +48,7 @@ class Cart extends Component {
 
     render() {
         const cart = this.props.cart;
-        this.getItemCount();
+        this.totalPrice();
         return (
             <div>
                 <h3>Order Summary</h3>
