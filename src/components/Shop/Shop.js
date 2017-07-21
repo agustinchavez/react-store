@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+
+import {Link} from 'react-router-dom';
+
 import './Shop.css'
 
 import fakeData from '../../fakeData';
@@ -47,7 +50,14 @@ class Shop extends Component {
                             </ShopItem>))}
                     </div>
                     <div className="cart-container">
-                        <Cart cart={this.state.cart}></Cart>
+                        <Cart cart={this.state.cart}>
+                            <Link to="/review">
+                                <button>
+                                    <span>Review your order </span>
+                                </button>
+                            </Link>
+                        </Cart>
+                        
                     </div>
                 </div>
             </div>

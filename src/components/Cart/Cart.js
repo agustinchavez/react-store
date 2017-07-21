@@ -99,6 +99,8 @@ class Cart extends Component {
                         </tr>
                     </tbody>
                 </table>
+                {/* passing child elements of shop */}
+                {this.props.children}
             </div>
         );
     }
