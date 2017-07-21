@@ -27,9 +27,37 @@ class Cart extends Component {
             return thisItemShippingPrice + prev
         }, 0);
 
+        var taxPrice = this.props.cart.reduce((prev, item) => {
+            var quantity = 1;
+            var thisItemTaxPrice = (this.price + this.shipping) * 0.1;
+            return thisItemTaxPrice + prev
+        }, 0);
+
+        var beforeTaxPrice = this.props.cart.reduce((prev,item) => {
+            var quantity = 1;
+            var thisItemBeforeTaxPrice = (this.price + this.shipping) * quantity;
+            return thisItemBeforeTaxPrice + prev
+        }, 0);
+
+        var grandTotalPrice = this.props.cart.reduce((prev, item) => {
+            var quantity = 1;
+            var thisGrandTotalPrice = (this.price + this.shipping + this.tax);
+            return thisGrandTotalPrice + prev
+        }, 0);
+
+
         this.price = this.roundTwoDecimal(totalPrice);
 
         this.shipping = this.roundTwoDecimal(shipingPrice);
+
+        // this.tax = this.roundTwoDecimal(taxPrice);
+
+        // this.beforeTax = this.roundTwoDecimal(beforeTaxPrice);
+
+        // this.grandTotal = this.roundTwoDecimal(grandTotalPrice);
+        this.tax = this.roundTwoDecimal((this.price + this.shipping) * 0.1);
+        this.beforeTax = this.roundTwoDecimal(this.price + this.shipping);
+        this.grandTotal = this.roundTwoDecimal(this.price + this.shipping + this.tax);
 
         
     }
@@ -55,19 +83,19 @@ class Cart extends Component {
                         </tr>
                         <tr>
                             <td>Shipping & Handling:</td>
-                            <td>{this.shipping}</td>
+                            <td>${this.shipping}</td>
                         </tr>
                         <tr>
                             <td>Total before tax:</td>
-                            <td>{this.beforeTax}</td>
+                            <td>${this.beforeTax}</td>
                         </tr>
                         <tr>
                             <td>Estimated tax:</td>
-                            <td>{this.tax}</td>
+                            <td>${this.tax}</td>
                         </tr>
                         <tr>
                             <td>Order Total:</td>
-                            <td>{this.total}</td>
+                            <td>${this.grandTotal}</td>
                         </tr>
                     </tbody>
                 </table>
