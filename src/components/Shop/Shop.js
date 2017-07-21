@@ -7,6 +7,7 @@ import './Shop.css'
 import fakeData from '../../fakeData';
 import ShopItem from '../ShopItem/ShopItem';
 import Cart from '../Cart/Cart';
+import {addToDatabaseCart, getDatabaseCart} from '../../utilities/databaseManager';
 
 class Shop extends Component {
     
@@ -14,7 +15,8 @@ class Shop extends Component {
         super(props);
         this.state = {
             items:[],
-            cart: []
+            cart: [],
+            cartCount:{}
         }
         this.addToCart = this.addToCart.bind(this);
     }
@@ -31,9 +33,18 @@ class Shop extends Component {
         var newCart = [...this.state.cart]; //copy current/existing cart
         newCart.push(selectedItem); //added selectedItem to the newCart
         //update the state and tell react that the state changed
+
+        var newCartCount = Object.assign({}, this.state.cartCount);
+        var previousCount = newCartCount[key] || 0;
+        var newCount = previousCount +1;
+        newCartCount[key] = newCount;
+
         this.setState({ 
-            cart:newCart
+            cart:newCart,
+            cartCount: newCartCount
         });
+        
+        addToDatabaseCart(key, newCount);
     }
 
     render() {
