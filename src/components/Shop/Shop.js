@@ -25,9 +25,10 @@ class Shop extends Component {
     
     addToCart(key){
         var selectedItem = this.state.items.find(item => item.key === key);
-        var newCart = [...this.state.cart];
-        newCart.push(selectedItem);
-        this.setState({
+        var newCart = [...this.state.cart]; //copy current/existing cart
+        newCart.push(selectedItem); //added selectedItem to the newCart
+        //update the state and tell react that the state changed
+        this.setState({ 
             cart:newCart
         });
     }

@@ -13,16 +13,30 @@ class Cart extends Component {
              
     }
 
-    totalPrice(){
-         var itemPrice = this.props.cart.reduce((prev, item) => item.price * item.quantity, 0);
+    calculateCost() {
+        var totalPrice = this.props.cart.reduce((prev, item) => {
+            var quantity = 1;
+            var thisItemPrice = item.price * quantity
+            return thisItemPrice + prev
+        }, 0);
+        //take the total price of the items, the initial zero is what it starts with
+
+        this.price = totalPrice;
+        
+        this.price = this.roundTwoDecimal(totalPrice);
+        
+    }
+
+    // totalPrice(){
+    //      var itemPrice = this.props.cart.reduce((prev, item) => item.price * item.quantity, 0);
         
 
-        this.price = this.getItemCount(itemPrice);
-    }
+    //     this.price = this.getItemCount(itemPrice);
+    // }
     
-    getItemCount(number){
-        return number;
-    }
+    // getItemCount(number){
+    //     return number;
+    // }
 
     // getItemCount() {
     //     const cart = this.props.cart;
@@ -42,26 +56,20 @@ class Cart extends Component {
     //     });
 
     //     this.beforeTax = price;
-
-
     // }
 
     render() {
         const cart = this.props.cart;
-        this.totalPrice();
+        this.calculateCost();
         return (
             <div>
                 <h3>Order Summary</h3>
-                <p>Items Ordered: {this.props.cart.length}</p>
+                <p>Items Ordered: {cart.length}</p>
                 <table>
                     <tbody>
                         <tr>
-                            <td>
-                                Items:
-                            </td>
-                            <td>
-                                ${this.price}
-                            </td>
+                            <td>Items:</td>
+                            <td>${this.price}</td>
                         </tr>
                         <tr>
                             <td>Shipping & Handling:</td>
@@ -81,7 +89,6 @@ class Cart extends Component {
                         </tr>
                     </tbody>
                 </table>
-                {this.props.children}
             </div>
         );
     }
