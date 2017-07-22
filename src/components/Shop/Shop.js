@@ -26,6 +26,17 @@ class Shop extends Component {
         this.setState({
             items:first10
         });
+
+        var cart = getDatabaseCart();
+        var keys = Object.keys(cart);
+        var items = keys.map(key => {
+            var item = fakeData.find(itm => itm.key === key);
+            item.quantity = cart[key];
+            return item;
+        });
+        this.setState({
+            cart: items
+        });
     }
     
     addToCart(key){
